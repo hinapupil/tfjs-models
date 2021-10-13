@@ -429,8 +429,60 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
-          console.log(keypoints);
+
+          // 足先から頭まで一直線になっているか判定する
+          // 方法：足首から肩までの関節点のそれぞれの一次関数の傾きの差を取る．
+
+          // 一次関数の傾きの関数
+          function SlopeOfLinear(number1, number2) {
+            return (keypoints[number2].position.y - keypoints[number1].position.y) / (keypoints[number2].position.x - keypoints[number1].position.x);
+          }
+
+          // 足首から膝までの傾き
+          let calf =　SlopeOfLinear(14, 16);
+
+          // 膝から腰までの傾き
+          let thighs = SlopeOfLinear(12, 14);
+
+          // 腰から肩までの傾き
+          let body = SlopeOfLinear(6, 12)
+
+          // 膝が曲がっているかの判定
+          let knees;
+          if (Math.abs(calf - thighs) < 0.5) {
+            knees = "膝: OK";
+          }
+          else {
+            knees = "膝: No";
+          }
+          document.getElementById("Judgement_kness").innerHTML = knees;
+
+          // 腰が曲がっているかの判定
+          let waist;
+          if (Math.abs(thighs - body) < 0.5) {
+            waist = "腰: OK";
+          }
+          else {
+            waist = "腰: No";
+          }
+          document.getElementById("Judgement_waist").innerHTML = waist;
+
         }
+      }
+    });
+
+    poses.forEach(({score, keypoints}) => {
+      if (score >= minPoseConfidence) {
+        let chest;
+        //胸がしっかりと下されているかを判定する
+        //胸を下ろした時の誤作動を防止するために一定時間止める
+        if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
+          chest = "胸: Yes";
+        }
+        else {
+          chest = "胸: No";
+        }
+        document.getElementById("Judgement_chest").innerHTML = chest;
       }
     });
 
