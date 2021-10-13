@@ -432,42 +432,42 @@ function detectPoseInRealTime(video, net) {
 
           // 腕が床と垂直になっているか判定する．
           //左腕の判定
-          let mgr_l;
+          let left_arm;
           if (Math.abs(keypoints[9].position.x - keypoints[7].position.x) < 30) {
-              mgr_l = "左腕: OK";
+              left_arm = "左腕: OK";
           }
           else {
-              mgr_l = "左腕: No";
+              left_arm = "左腕: No";
             }
-          document.getElementById("Judgement_l").innerHTML = mgr_l;
+          document.getElementById("Judgement_l").innerHTML = left_arm;
           //右腕の判定
-          let msg_r;
+          let right_arm;
           if (Math.abs(keypoints[10].position.x - keypoints[8].position.x) < 30) {
-              msg_r = "右腕: OK";
+              right_arm = "右腕: OK";
           }
           else {
-              msg_r = "右腕: No";
+              right_arm = "右腕: No";
             }
-          document.getElementById("Judgement_r").innerHTML = msg_r;
+          document.getElementById("Judgement_r").innerHTML = right_arm;
 
           //胸がしっかりと下されているかを判定する
-          let msg_c_l
+          let left_chest
           if ((keypoints[7].position.y - keypoints[5].position.y) < 0) {
-            msg_c_l = "左胸: OK";
+            left_chest = "左胸: OK";
           }
           else {
-            msg_c_l = "左胸: No";
+            left_chest = "左胸: No";
           }
-          document.getElementById("Judgement_c_l").innerHTML = msg_c_l;
+          document.getElementById("Judgement_c_l").innerHTML = left_chest;
 
-          let msg_c_r
+          let right_chest
           if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
-            msg_c_r = "右胸: OK";
+            right_chest = "右胸: OK";
           }
           else {
-            msg_c_r = "右胸: No";
+            right_chest = "右胸: No";
           }
-          document.getElementById("Judgement_c_r").innerHTML = msg_c_r;
+          document.getElementById("Judgement_c_r").innerHTML = right_chest;
 
         }
       }
