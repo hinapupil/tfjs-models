@@ -76,12 +76,12 @@ const defaultResNetStride = 32;
 const defaultResNetInputResolution = 250;
 
 const guiState = {
-  algorithm: 'multi-pose',
+  algorithm: 'single-pose',
   input: {
-    architecture: 'MobileNetV1',
-    outputStride: defaultMobileNetStride,
-    inputResolution: defaultMobileNetInputResolution,
-    multiplier: defaultMobileNetMultiplier,
+    architecture: 'ResNet50',
+    outputStride: defaultResNetStride,
+    inputResolution: defaultResNetInputResolution,
+    multiplier: defaultResNetMultiplier,
     quantBytes: defaultQuantBytes
   },
   singlePoseDetection: {
@@ -285,6 +285,8 @@ function setupFPS() {
   document.getElementById('main').appendChild(stats.dom);
 }
 
+let count = 0;
+
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -467,22 +469,22 @@ function detectPoseInRealTime(video, net) {
           }
           document.getElementById("Judgement_waist").innerHTML = waist;
 
-        }
-      }
-    });
+          //胸がしっかりと下されているかを判定する
+          //胸を下ろした時の誤作動を防止するために一定時間止める
+          let chest;
+          if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
+            chest = "胸: OK";
+          }
+          else {
+            chest = "胸: No";
+          }
+          document.getElementById("Judgement_chest").innerHTML = chest;
 
-    poses.forEach(({score, keypoints}) => {
-      if (score >= minPoseConfidence) {
-        let chest;
-        //胸がしっかりと下されているかを判定する
-        //胸を下ろした時の誤作動を防止するために一定時間止める
-        if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
-          chest = "胸: Yes";
+          if (chest == "胸: OK") {
+            count++;
+          }
+          document.getElementById("Judgement_count").innerHTML = count;
         }
-        else {
-          chest = "胸: No";
-        }
-        document.getElementById("Judgement_chest").innerHTML = chest;
       }
     });
 

@@ -76,12 +76,12 @@ const defaultResNetStride = 32;
 const defaultResNetInputResolution = 250;
 
 const guiState = {
-  algorithm: 'multi-pose',
+  algorithm: 'single-pose',
   input: {
-    architecture: 'MobileNetV1',
-    outputStride: defaultMobileNetStride,
-    inputResolution: defaultMobileNetInputResolution,
-    multiplier: defaultMobileNetMultiplier,
+    architecture: 'ResNet50',
+    outputStride: defaultResNetStride,
+    inputResolution: defaultResNetInputResolution,
+    multiplier: defaultResNetMultiplier,
     quantBytes: defaultQuantBytes
   },
   singlePoseDetection: {
@@ -217,7 +217,7 @@ function setupGui(cameras, net) {
           [200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]);
       updateGuiOutputStride(defaultMobileNetStride, [8, 16]);
       updateGuiMultiplier(defaultMobileNetMultiplier, [0.50, 0.75, 1.0]);
-    } else {  // guiState.input.architecture === "ResNet50"
+    } else {guiState.input.architecture === "ResNet50"
       updateGuiInputResolution(
           defaultResNetInputResolution,
           [200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]);
@@ -284,6 +284,8 @@ function setupFPS() {
   stats.showPanel(0);  // 0: fps, 1: ms, 2: mb, 3+: custom
   document.getElementById('main').appendChild(stats.dom);
 }
+
+let count = 0;
 
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
@@ -425,33 +427,33 @@ function detectPoseInRealTime(video, net) {
     // For each pose (i.e. person) detected in an image, loop through the poses
     // and draw the resulting skeleton and keypoints if over certain confidence
     // scores
+
     poses.forEach(({score, keypoints}) => {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
-
           // 腕が床と垂直になっているか判定する．
-          //左腕の判定
+          // 左腕の判定
           let left_arm;
           if (Math.abs(keypoints[9].position.x - keypoints[7].position.x) < 30) {
-              left_arm = "左腕: OK";
+            left_arm = "左腕: OK";
           }
           else {
-              left_arm = "左腕: No";
-            }
+            left_arm = "左腕: No";
+          }
           document.getElementById("Judgement_left_arm").innerHTML = left_arm;
-          //右腕の判定
+          // 右腕の判定
           let right_arm;
           if (Math.abs(keypoints[10].position.x - keypoints[8].position.x) < 30) {
-              right_arm = "右腕: OK";
+            right_arm = "右腕: OK";
           }
           else {
-              right_arm = "右腕: No";
-            }
+            right_arm = "右腕: No";
+          }
           document.getElementById("Judgement_right_arm").innerHTML = right_arm;
 
-          //胸がしっかりと下されているかを判定する
-          let left_chest
+          // 胸がしっかりと下されているかを判定する
+          let left_chest;
           if ((keypoints[7].position.y - keypoints[5].position.y) < 0) {
             left_chest = "左胸: OK";
           }
@@ -468,10 +470,14 @@ function detectPoseInRealTime(video, net) {
             right_chest = "右胸: No";
           }
           document.getElementById("Judgement_right_chest").innerHTML = right_chest;
+
+          if ((left_chest == "左胸: OK") && (right_chest == "右胸: OK")) {
+            count++;
+          }
+          document.getElementById("Judgement_count").innerHTML = count;
         }
       }
     });
-
     // End monitoring code for frames per second
     stats.end();
 
@@ -510,7 +516,7 @@ export async function bindPage() {
 
   setupGui([], net);
   setupFPS();
-  detectPoseInRealTime(video, net);
+    detectPoseInRealTime(video, net);
 }
 
 navigator.getUserMedia = navigator.getUserMedia ||
