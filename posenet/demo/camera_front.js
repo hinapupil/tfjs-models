@@ -439,7 +439,7 @@ function detectPoseInRealTime(video, net) {
           else {
               left_arm = "左腕: No";
             }
-          document.getElementById("Judgement_l").innerHTML = left_arm;
+          document.getElementById("Judgement_left_arm").innerHTML = left_arm;
           //右腕の判定
           let right_arm;
           if (Math.abs(keypoints[10].position.x - keypoints[8].position.x) < 30) {
@@ -448,7 +448,7 @@ function detectPoseInRealTime(video, net) {
           else {
               right_arm = "右腕: No";
             }
-          document.getElementById("Judgement_r").innerHTML = right_arm;
+          document.getElementById("Judgement_right_arm").innerHTML = right_arm;
 
           //胸がしっかりと下されているかを判定する
           let left_chest
@@ -458,17 +458,16 @@ function detectPoseInRealTime(video, net) {
           else {
             left_chest = "左胸: No";
           }
-          document.getElementById("Judgement_c_l").innerHTML = left_chest;
+          document.getElementById("Judgement_left_chest").innerHTML = left_chest;
 
-          let right_chest
+          let right_chest;
           if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
             right_chest = "右胸: OK";
           }
           else {
             right_chest = "右胸: No";
           }
-          document.getElementById("Judgement_c_r").innerHTML = right_chest;
-
+          document.getElementById("Judgement_right_chest").innerHTML = right_chest;
         }
       }
     });
