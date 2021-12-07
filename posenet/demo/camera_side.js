@@ -287,6 +287,24 @@ function setupFPS() {
 
 let count = 0;
 
+const nose = 0;
+const leftEye = 1;
+const rightEye = 2;
+const leftEar = 3;
+const rightEar = 4;
+const leftShoulder = 5;
+const rightShoulder = 6;
+const leftElbow = 7;
+const rightElbow = 8;
+const leftWrist = 9;
+const rightWrist = 10;
+const leftHip = 11;
+const rightHip = 12;
+const leftKnee = 13;
+const rightKnee = 14;
+const leftAnkle = 15;
+const rightAnkle = 16;
+
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.

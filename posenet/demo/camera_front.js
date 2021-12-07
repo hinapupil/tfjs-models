@@ -287,6 +287,30 @@ function setupFPS() {
 
 let count = 0;
 
+let leftChest;
+let rightChest;
+
+let Chest;
+let ChestArr = ["ぺけ", "ぺけ"];
+
+const nose = 0;
+const leftEye = 1;
+const rightEye = 2;
+const leftEar = 3;
+const rightEar = 4;
+const leftShoulder = 5;
+const rightShoulder = 6;
+const leftElbow = 7;
+const rightElbow = 8;
+const leftWrist = 9;
+const rightWrist = 10;
+const leftHip = 11;
+const rightHip = 12;
+const leftKnee = 13;
+const rightKnee = 14;
+const leftAnkle = 15;
+const rightAnkle = 16;
+
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -434,47 +458,62 @@ function detectPoseInRealTime(video, net) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
-          let left_arm;
-          if (Math.abs(keypoints[9].position.x - keypoints[7].position.x) < 30) {
-            left_arm = "左腕: OK";
+          let leftArm;
+          if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < 30) {
+            leftArm = "左腕: OK";
           }
           else {
-            left_arm = "左腕: No";
+            leftArm = "左腕: No";
           }
-          document.getElementById("Judgement_left_arm").innerHTML = left_arm;
+          document.getElementById("JudgementLeftArm").innerHTML = leftArm;
           // 右腕の判定
-          let right_arm;
-          if (Math.abs(keypoints[10].position.x - keypoints[8].position.x) < 30) {
-            right_arm = "右腕: OK";
+          let rightArm;
+          if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 30) {
+            rightArm = "右腕: OK";
           }
           else {
-            right_arm = "右腕: No";
+            rightArm = "右腕: No";
           }
-          document.getElementById("Judgement_right_arm").innerHTML = right_arm;
+          document.getElementById("JudgementRightArm").innerHTML = rightArm;
 
           // 胸がしっかりと下されているかを判定する
-          let left_chest;
-          if ((keypoints[7].position.y - keypoints[5].position.y) < 0) {
-            left_chest = "左胸: OK";
+          if ((keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y) < -10) {
+            leftChest = "上げろ";
+          }
+          else if ((keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y) > 10){
+            leftChest = "下げろ";
           }
           else {
-            left_chest = "左胸: No";
+            leftChest = "中間";
           }
-          document.getElementById("Judgement_left_chest").innerHTML = left_chest;
+          document.getElementById("JudgementLeftChest").innerHTML = "左胸: " + leftChest;
+          // console.log(leftElbow.position.y);
 
-          let right_chest;
-          if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
-            right_chest = "右胸: OK";
+          if ((keypoints[rightElbow].position.y - keypoints[rightShoulder].position.y) < -10) {
+            rightChest = "上げろ";
+          }
+          else if ((keypoints[rightElbow].position.y - keypoints[rightShoulder].position.y) > 10) {
+            rightChest = "下げろ";
           }
           else {
-            right_chest = "右胸: No";
+            rightChest = "中間";
           }
-          document.getElementById("Judgement_right_chest").innerHTML = right_chest;
+          document.getElementById("JudgementRightChest").innerHTML = "右胸: " + rightChest;
 
-          if ((left_chest == "左胸: OK") && (right_chest == "右胸: OK")) {
+          if ((leftChest == "上げろ") && (rightChest == "上げろ")) {
+            Chest = "上げろ";
+          }
+          else {
+            Chest = "下げろ";
+          }
+
+          ChestArr.pop();          
+          ChestArr.unshift(Chest);
+
+          if (((ChestArr[0] == "上げろ") && (ChestArr[1] == "下げろ")) || ((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }
-          document.getElementById("Judgement_count").innerHTML = count;
+          document.getElementById("JudgementCount").innerHTML = "回数: " + Math.floor(count/2);
         }
       }
     });
