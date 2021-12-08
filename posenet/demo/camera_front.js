@@ -285,14 +285,13 @@ function setupFPS() {
   document.getElementById('main').appendChild(stats.dom);
 }
 
-<<<<<<< HEAD
 let count = 0;
 
 let leftChest;
 let rightChest;
 
 let Chest;
-let ChestArr = ["ぺけ", "ぺけ"];
+let ChestArr = ["下げろ", "下げろ"];
 
 const nose = 0;
 const leftEye = 1;
@@ -312,8 +311,6 @@ const rightKnee = 14;
 const leftAnkle = 15;
 const rightAnkle = 16;
 
-=======
->>>>>>> refs/remotes/origin/master
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -526,7 +523,7 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
-<<<<<<< HEAD
+
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
           let leftArm;
@@ -553,24 +550,21 @@ function detectPoseInRealTime(video, net) {
           // 胸がしっかりと下されているかを判定する
           if (chestPosition < -10) {
             Chest = "上げろ";
+            ChestArr.pop();      //末尾削除 
+            ChestArr.unshift(Chest); //先頭追加
           }
           else if (chestPosition > 30){
             Chest = "下げろ";
+            ChestArr.pop();      //末尾削除 
+            ChestArr.unshift(Chest); //先頭追加
           }
-          else {
-            Chest;
-          }
+          else {}
           document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
 
-          ChestArr.pop();      //末尾削除 
-          ChestArr.unshift(Chest); //先頭追加
-
-          if (((ChestArr[0] == "上げろ") && (ChestArr[1] == "下げろ"))) {
+          if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }
           document.getElementById("JudgementCount").innerHTML = "回数: " + count;
-=======
->>>>>>> refs/remotes/origin/master
         }
       }
     });
