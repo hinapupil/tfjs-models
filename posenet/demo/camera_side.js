@@ -287,6 +287,12 @@ function setupFPS() {
 
 let count = 0;
 
+let leftChest;
+let rightChest;
+
+let Chest;
+let ChestArr = ["下げろ", "下げろ"];
+
 const nose = 0;
 const leftEye = 1;
 const rightEye = 2;
@@ -459,13 +465,13 @@ function detectPoseInRealTime(video, net) {
           }
 
           // 足首から膝までの傾き
-          let calf =　SlopeOfLinear(14, 16);
+          let calf =　(SlopeOfLinear(leftKnee, leftAnkle) + SlopeOfLinear(rightKnee, rightAnkle))/2;
 
-          // 膝から腰までの傾き
-          let thighs = SlopeOfLinear(12, 14);
+          // 膝から尻までの傾き
+          let thighs = (SlopeOfLinear(leftHip, leftKnee) + SlopeOfLinear(rightHip, rightKnee))/2;
 
-          // 腰から肩までの傾き
-          let body = SlopeOfLinear(6, 12)
+          // 尻から肩までの傾き
+          let body = (SlopeOfLinear(leftShoulder, leftHip) + SlopeOfLinear(rightShoulder, rightHip))/2;
 
           // 膝が曲がっているかの判定
           let knees;
@@ -475,7 +481,7 @@ function detectPoseInRealTime(video, net) {
           else {
             knees = "膝: No";
           }
-          document.getElementById("Judgement_kness").innerHTML = knees;
+          document.getElementById("JudgementKness").innerHTML = knees;
 
           // 腰が曲がっているかの判定
           let waist;
@@ -485,23 +491,33 @@ function detectPoseInRealTime(video, net) {
           else {
             waist = "腰: No";
           }
-          document.getElementById("Judgement_waist").innerHTML = waist;
+          document.getElementById("JudgementWaist").innerHTML = waist;
 
           //胸がしっかりと下されているかを判定する
-          //胸を下ろした時の誤作動を防止するために一定時間止める
-          let chest;
-          if ((keypoints[8].position.y - keypoints[6].position.y) < 0) {
-            chest = "胸: OK";
+          //条件文
+          let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
+
+          if (chestPosition < -15) {
+            Chest = "上げろ";
+          }
+          else if (chestPosition > 30){
+            Chest = "下げろ";
           }
           else {
-            chest = "胸: No";
+            Chest = ChestArr[0];
           }
-          document.getElementById("Judgement_chest").innerHTML = chest;
+          document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
 
-          if (chest == "胸: OK") {
+          // ループ内の胸の位置をキャッシュする
+          ChestArr.pop();      //末尾削除 
+          ChestArr.unshift(Chest); //先頭追加
+
+          console.log(ChestArr);
+
+          if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }
-          document.getElementById("Judgement_count").innerHTML = count;
+          document.getElementById("JudgementCount").innerHTML = "回数: " + count;
         }
       }
     });
