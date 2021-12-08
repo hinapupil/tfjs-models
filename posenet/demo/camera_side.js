@@ -465,13 +465,13 @@ function detectPoseInRealTime(video, net) {
           }
 
           // 足首から膝までの傾き
-          let calf =　(SlopeOfLinear(leftKnee, leftAnkle) + SlopeOfLinear(rightKnee, rightAnkle))/2;
+          let calf =　SlopeOfLinear(leftKnee, leftAnkle);
 
           // 膝から尻までの傾き
-          let thighs = (SlopeOfLinear(leftHip, leftKnee) + SlopeOfLinear(rightHip, rightKnee))/2;
+          let thighs = SlopeOfLinear(leftHip, leftKnee);
 
           // 尻から肩までの傾き
-          let body = (SlopeOfLinear(leftShoulder, leftHip) + SlopeOfLinear(rightShoulder, rightHip))/2;
+          let body = SlopeOfLinear(leftShoulder, leftHip);
 
           // 膝が曲がっているかの判定
           let knees;
@@ -495,7 +495,7 @@ function detectPoseInRealTime(video, net) {
 
           //胸がしっかりと下されているかを判定する
           //条件文
-          let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
+          let chestPosition = keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y;
 
           if (chestPosition < -12.5) {
             Chest = "上げろ";
