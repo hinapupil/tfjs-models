@@ -285,6 +285,7 @@ function setupFPS() {
   document.getElementById('main').appendChild(stats.dom);
 }
 
+<<<<<<< HEAD
 let count = 0;
 
 let leftChest;
@@ -311,6 +312,8 @@ const rightKnee = 14;
 const leftAnkle = 15;
 const rightAnkle = 16;
 
+=======
+>>>>>>> refs/remotes/origin/master
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -523,7 +526,11 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/master
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
           let leftArm;
@@ -565,6 +572,8 @@ function detectPoseInRealTime(video, net) {
             count++;
           }
           document.getElementById("JudgementCount").innerHTML = "回数: " + count;
+=======
+>>>>>>> refs/remotes/origin/master
         }
       }
     });
