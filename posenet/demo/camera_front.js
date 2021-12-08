@@ -481,7 +481,7 @@ function detectPoseInRealTime(video, net) {
           let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
 
           // 胸がしっかりと下されているかを判定する
-          if (chestPosition < -10) {
+          if (chestPosition < -15) {
             Chest = "上げろ";
           }
           else if (chestPosition > 30){
@@ -490,11 +490,13 @@ function detectPoseInRealTime(video, net) {
           else {
             Chest = ChestArr[0];
           }
+          document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
 
+          // ループ内の胸の位置をキャッシュする
           ChestArr.pop();      //末尾削除 
           ChestArr.unshift(Chest); //先頭追加
 
-          document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
+          console.log(ChestArr);
 
           if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
