@@ -476,44 +476,28 @@ function detectPoseInRealTime(video, net) {
           }
           document.getElementById("JudgementRightArm").innerHTML = rightArm;
 
+          //条件文
+          let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
+
           // 胸がしっかりと下されているかを判定する
-          if ((keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y) < -10) {
-            leftChest = "上げろ";
-          }
-          else if ((keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y) > 10){
-            leftChest = "下げろ";
-          }
-          else {
-            leftChest = "中間";
-          }
-          document.getElementById("JudgementLeftChest").innerHTML = "左胸: " + leftChest;
-          // console.log(leftElbow.position.y);
-
-          if ((keypoints[rightElbow].position.y - keypoints[rightShoulder].position.y) < -10) {
-            rightChest = "上げろ";
-          }
-          else if ((keypoints[rightElbow].position.y - keypoints[rightShoulder].position.y) > 10) {
-            rightChest = "下げろ";
-          }
-          else {
-            rightChest = "中間";
-          }
-          document.getElementById("JudgementRightChest").innerHTML = "右胸: " + rightChest;
-
-          if ((leftChest == "上げろ") && (rightChest == "上げろ")) {
+          if (chestPosition < -10) {
             Chest = "上げろ";
           }
-          else {
+          else if (chestPosition > 30){
             Chest = "下げろ";
           }
+          else {
+            Chest;
+          }
+          document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
 
-          ChestArr.pop();          
-          ChestArr.unshift(Chest);
+          ChestArr.pop();      //末尾削除 
+          ChestArr.unshift(Chest); //先頭追加
 
-          if (((ChestArr[0] == "上げろ") && (ChestArr[1] == "下げろ")) || ((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
+          if (((ChestArr[0] == "上げろ") && (ChestArr[1] == "下げろ"))) {
             count++;
           }
-          document.getElementById("JudgementCount").innerHTML = "回数: " + Math.floor(count/2);
+          document.getElementById("JudgementCount").innerHTML = "回数: " + count;
         }
       }
     });
