@@ -285,11 +285,16 @@ function setupFPS() {
   document.getElementById('main').appendChild(stats.dom);
 }
 
+// 変数の宣言
 let count = 0;
+
+let leftArm;
+let rightArm;
+let leftArmArr = ["No", "No"];
+let rightArmArr = ["No", "No"];
 
 let leftChest;
 let rightChest;
-
 let Chest;
 let ChestArr = ["下げろ", "下げろ"];
 
@@ -459,29 +464,36 @@ function detectPoseInRealTime(video, net) {
 
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
-          let leftArm;
           if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < 30) {
-            leftArm = "左腕: OK";
+            leftArm = "OK";
+          }
+          else if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < 60){
+            leftArm = leftArmArr[0];
           }
           else {
-            leftArm = "左腕: No";
+            leftArm = "No";
           }
-          document.getElementById("JudgementLeftArm").innerHTML = leftArm;
+          leftArmArr.pop();
+          leftArmArr.unshift(leftArm);
+          document.getElementById("JudgementLeftArm").innerHTML = "左腕: " + leftArm;
+
           // 右腕の判定
-          let rightArm;
           if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 30) {
-            rightArm = "右腕: OK";
+            rightArm = "OK";
+          }
+          else if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 60){
+            rightArm = rightArmArr[0];
           }
           else {
-            rightArm = "右腕: No";
+            rightArm = "No";
           }
-          document.getElementById("JudgementRightArm").innerHTML = rightArm;
+          rightArmArr.pop();
+          rightArmArr.unshift(rightArm);
+          document.getElementById("JudgementRightArm").innerHTML = "左腕" + rightArm;
 
           // 胸がしっかりと下されているかを判定する
-
           //条件文
           let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
-
           if (chestPosition < -15) {
             Chest = "上げろ";
           }
@@ -492,13 +504,10 @@ function detectPoseInRealTime(video, net) {
             Chest = ChestArr[0];
           }
           document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
-
           // ループ内の胸の位置をキャッシュする
-          ChestArr.pop();      //末尾削除 
+          ChestArr.pop();      //末尾削除
           ChestArr.unshift(Chest); //先頭追加
-
-          console.log(ChestArr);
-
+          console.log(ChestArr); //プリントデバッグ
           if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }

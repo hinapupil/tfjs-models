@@ -476,22 +476,22 @@ function detectPoseInRealTime(video, net) {
           // 膝が曲がっているかの判定
           let knees;
           if (Math.abs(calf - thighs) < 0.5) {
-            knees = "膝: OK";
+            knees = "OK";
           }
           else {
-            knees = "膝: No";
+            knees = "No";
           }
-          document.getElementById("JudgementKness").innerHTML = knees;
+          document.getElementById("JudgementKness").innerHTML = "膝: " + knees;
 
           // 腰が曲がっているかの判定
           let waist;
           if (Math.abs(thighs - body) < 0.5) {
-            waist = "腰: OK";
+            waist = "OK";
           }
           else {
-            waist = "腰: No";
+            waist = "No";
           }
-          document.getElementById("JudgementWaist").innerHTML = waist;
+          document.getElementById("JudgementWaist").innerHTML = "腰: " + waist;
 
           //胸がしっかりと下されているかを判定する
           //条件文
