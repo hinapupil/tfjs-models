@@ -22,7 +22,7 @@ import Stats from 'stats.js';
 
 import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
 
-const videoWidth = 600;
+const videoWidth = 1000;
 const videoHeight = 500;
 const stats = new Stats();
 
@@ -497,10 +497,10 @@ function detectPoseInRealTime(video, net) {
           //条件文
           let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
 
-          if (chestPosition < -15) {
+          if (chestPosition < -12.5) {
             Chest = "上げろ";
           }
-          else if (chestPosition > 30){
+          else if (chestPosition > 25){
             Chest = "下げろ";
           }
           else {
@@ -509,7 +509,7 @@ function detectPoseInRealTime(video, net) {
           document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
 
           // ループ内の胸の位置をキャッシュする
-          ChestArr.pop();      //末尾削除 
+          ChestArr.pop();      //末尾削除
           ChestArr.unshift(Chest); //先頭追加
 
           console.log(ChestArr);
