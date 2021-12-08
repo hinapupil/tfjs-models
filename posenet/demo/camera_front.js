@@ -477,6 +477,8 @@ function detectPoseInRealTime(video, net) {
           leftArmArr.pop();
           leftArmArr.unshift(leftArm);
 
+          console.log(keypoints[leftKnee].position.x);
+
           // 右腕の判定
           if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 30) {
             rightArm = "OK";
