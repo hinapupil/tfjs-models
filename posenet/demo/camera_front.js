@@ -477,10 +477,11 @@ function detectPoseInRealTime(video, net) {
           }
           document.getElementById("JudgementRightArm").innerHTML = rightArm;
 
+          // 胸がしっかりと下されているかを判定する
+
           //条件文
           let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
 
-          // 胸がしっかりと下されているかを判定する
           if (chestPosition < -15) {
             Chest = "上げろ";
           }
