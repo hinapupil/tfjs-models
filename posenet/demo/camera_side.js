@@ -287,9 +287,13 @@ function setupFPS() {
 
 let count = 0;
 
+let knees;
+let waist;
+let kneesArr = ["No", "No"];
+let waistArr = ["No", "No"];
+
 let leftChest;
 let rightChest;
-
 let Chest;
 let ChestArr = ["下げろ", "下げろ"];
 
@@ -474,24 +478,32 @@ function detectPoseInRealTime(video, net) {
           let body = SlopeOfLinear(leftShoulder, leftHip);
 
           // 膝が曲がっているかの判定
-          let knees;
           if (Math.abs(calf - thighs) < 0.5) {
             knees = "OK";
+          }
+          else if (Math.abs(calf - thighs) < 1.0) {
+            knees = kneesArr[0];
           }
           else {
             knees = "No";
           }
           document.getElementById("JudgementKness").innerHTML = "膝: " + knees;
+          kneesArr.pop();
+          kneesArr.unshift(knees);
 
           // 腰が曲がっているかの判定
-          let waist;
           if (Math.abs(thighs - body) < 0.5) {
             waist = "OK";
+          }
+          else if (Math.abs(thighs - body) < 1.0) {
+            waist = waistArr[0];
           }
           else {
             waist = "No";
           }
           document.getElementById("JudgementWaist").innerHTML = "腰: " + waist;
+          waistArr.pop();
+          waistArr.unshift(waist);
 
           //胸がしっかりと下されているかを判定する
           //条件文
@@ -507,13 +519,10 @@ function detectPoseInRealTime(video, net) {
             Chest = ChestArr[0];
           }
           document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
-
           // ループ内の胸の位置をキャッシュする
           ChestArr.pop();      //末尾削除
           ChestArr.unshift(Chest); //先頭追加
-
-          console.log(ChestArr);
-
+          console.log(ChestArr); // プリントデバッグ
           if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }

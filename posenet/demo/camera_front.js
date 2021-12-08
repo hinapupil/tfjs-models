@@ -473,9 +473,9 @@ function detectPoseInRealTime(video, net) {
           else {
             leftArm = "No";
           }
+          document.getElementById("JudgementLeftArm").innerHTML = "左腕: " + leftArm;
           leftArmArr.pop();
           leftArmArr.unshift(leftArm);
-          document.getElementById("JudgementLeftArm").innerHTML = "左腕: " + leftArm;
 
           // 右腕の判定
           if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 30) {
@@ -487,9 +487,9 @@ function detectPoseInRealTime(video, net) {
           else {
             rightArm = "No";
           }
+          document.getElementById("JudgementRightArm").innerHTML = "左腕" + rightArm;
           rightArmArr.pop();
           rightArmArr.unshift(rightArm);
-          document.getElementById("JudgementRightArm").innerHTML = "左腕" + rightArm;
 
           // 胸がしっかりと下されているかを判定する
           //条件文
