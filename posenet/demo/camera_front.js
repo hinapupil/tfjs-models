@@ -22,7 +22,7 @@ import Stats from 'stats.js';
 
 import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
 
-const videoWidth = 600;
+const videoWidth = 1000;
 const videoHeight = 500;
 const stats = new Stats();
 
@@ -85,7 +85,7 @@ const guiState = {
     quantBytes: defaultQuantBytes
   },
   singlePoseDetection: {
-    minPoseConfidence: 0.1,
+    minPoseConfidence: 0.1, //ここを変更すれば誤認識が減るかも
     minPartConfidence: 0.5,
   },
   multiPoseDetection: {
