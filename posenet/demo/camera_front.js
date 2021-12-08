@@ -285,7 +285,6 @@ function setupFPS() {
   document.getElementById('main').appendChild(stats.dom);
 }
 
-<<<<<<< HEAD
 let count = 0;
 
 let leftChest;
@@ -312,8 +311,6 @@ const rightKnee = 14;
 const leftAnkle = 15;
 const rightAnkle = 16;
 
-=======
->>>>>>> refs/remotes/origin/master
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
@@ -455,82 +452,11 @@ function detectPoseInRealTime(video, net) {
     // and draw the resulting skeleton and keypoints if over certain confidence
     // scores
 
-    // let time = 0;
-    // ~~
-    // foreach{
-    // }
-    // if ok && ok && time < 1秒前:
-    // count++;
-
-    //　NGが出た時の判定
-    // ただしくあがったという判定があった方が楽かもしれない
-    // 下げてすぐにあげてもいいのかキープした方がいいのか
-    // 筋トレ指導システムとしてどう組んだ方がいいのか，指導した方がいいのか，都合がいいのか
-    // 妥協点．どこまでの精度か
-    // 音声ファイルを用意しておくか，APIを利用するか
-
-    // 腕が床と垂直になっているか判定する．
-    // 左腕の判定
-
-    let count = 0;
-
-    // Dateオブジェクトを作成
-    var date = new Date();
-
-    // UNIXタイムスタンプを取得する (ミリ秒単位)
-    var now = date.getTime();
-
-    let left_arm;
-    if (Math.abs(poses.keypoints[9].position.x - poses.keypoints[7].position.x) < 30) {
-      left_arm = "左腕: OK";
-    }
-    else {
-      left_arm = "左腕: No";
-    }
-    document.getElementById("Judgement_left_arm").innerHTML = left_arm;
-    // 右腕の判定
-    let right_arm;
-    if (Math.abs(poses.keypoints[10].position.x - poses.keypoints[8].position.x) < 30) {
-      right_arm = "右腕: OK";
-    }
-    else {
-      right_arm = "右腕: No";
-    }
-    document.getElementById("Judgement_right_arm").innerHTML = right_arm;
-
-    // 胸がしっかりと下されているかを判定する
-    let left_chest;
-    if ((poses.keypoints[7].position.y - poses.keypoints[5].position.y) < 0) {
-      left_chest = "左胸: OK";
-    }
-    else {
-      left_chest = "左胸: No";
-    }
-    document.getElementById("Judgement_left_chest").innerHTML = left_chest;
-
-    let right_chest;
-    if ((poses.keypoints[8].position.y - poses.keypoints[6].position.y) < 0) {
-      right_chest = "右胸: OK";
-    }
-    else {
-      right_chest = "右胸: No";
-    }
-    document.getElementById("Judgement_right_chest").innerHTML = right_chest;
-
-    if((left_chest=="左胸: OK") && (right_chest=="右胸: OK")　&& ((new Date() - now) > 1000)){
-      count++;
-    }
-    document.getElementById("Judgement_count").innerHTML = count;
-
     poses.forEach(({score, keypoints}) => {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
->>>>>>> refs/remotes/origin/master
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
           let leftArm;
@@ -557,23 +483,23 @@ function detectPoseInRealTime(video, net) {
           // 胸がしっかりと下されているかを判定する
           if (chestPosition < -10) {
             Chest = "上げろ";
-            ChestArr.pop();      //末尾削除 
-            ChestArr.unshift(Chest); //先頭追加
           }
           else if (chestPosition > 30){
             Chest = "下げろ";
-            ChestArr.pop();      //末尾削除 
-            ChestArr.unshift(Chest); //先頭追加
           }
-          else {}
+          else {
+            Chest = ChestArr[0];
+          }
+
+          ChestArr.pop();      //末尾削除 
+          ChestArr.unshift(Chest); //先頭追加
+
           document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
 
           if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }
           document.getElementById("JudgementCount").innerHTML = "回数: " + count;
-=======
->>>>>>> refs/remotes/origin/master
         }
       }
     });
