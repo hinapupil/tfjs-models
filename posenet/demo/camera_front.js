@@ -511,10 +511,10 @@ function detectPoseInRealTime(video, net) {
           // 胸がしっかりと下されているかを判定する
           //条件文
           let chestPosition = (keypoints[leftElbow].position.y + keypoints[rightElbow].position.y)/2 - (keypoints[leftShoulder].position.y + keypoints[rightShoulder].position.y)/2;
-          if (chestPosition < -15) {
+          if (chestPosition < chestlow) {
             Chest = "上げろ";
           }
-          else if (chestPosition > 30){
+          else if (chestPosition > chesthigh){
             Chest = "下げろ";
           }
           else {
