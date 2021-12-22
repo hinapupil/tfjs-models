@@ -13,6 +13,7 @@
     "@tensorflow/tfjs-backend-webgl": "^3.3.0",
     "@tensorflow/tfjs-converter": "^3.0.0-rc.1",
     "@tensorflow/tfjs-core": "^3.0.0-rc.1",
+    "firebase": "^9.6.1",
     "stats.js": "^0.17.0"
   },
   "scripts": {
