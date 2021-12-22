@@ -334,6 +334,21 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
 
   async function poseDetectionFrame() {
+
+    const armlow = Number( document.querySelector('#armLow').value );
+    // console.log(armlow);
+    document.getElementById("rangeArmLow").innerHTML = "腕-下閾値: " + armlow;
+
+    const armhigh = Number( document.querySelector('#armHigh').value );
+    console.log(armhigh);
+    document.getElementById("rangeArmHigh").innerHTML = "腕-上閾値: " + armhigh;
+
+    const chestlow = Number( document.querySelector('#chestLow').value );
+    document.getElementById("rangeChestLow").innerHTML = "胸-下閾値: " + chestlow;
+
+    const chesthigh = Number( document.querySelector('#chestHigh').value );
+    document.getElementById("rangeChestHigh").innerHTML = "胸-上閾値: " + chesthigh;
+
     if (guiState.changeToArchitecture) {
       // Important to purge variables and free up GPU memory
       guiState.net.dispose();
@@ -464,10 +479,10 @@ function detectPoseInRealTime(video, net) {
 
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
-          if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < 30) {
+          if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < armlow) {
             leftArm = "OK";
           }
-          else if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < 60){
+          else if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < armhigh){
             leftArm = leftArmArr[0];
           }
           else {
@@ -477,13 +492,13 @@ function detectPoseInRealTime(video, net) {
           leftArmArr.pop();
           leftArmArr.unshift(leftArm);
 
-          console.log(keypoints[leftKnee].position.x);
+          // console.log(keypoints[leftKnee].position.x);
 
           // 右腕の判定
-          if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 30) {
+          if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < armlow) {
             rightArm = "OK";
           }
-          else if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < 60){
+          else if (Math.abs(keypoints[rightWrist].position.x - keypoints[rightElbow].position.x) < armhigh){
             rightArm = rightArmArr[0];
           }
           else {
@@ -509,7 +524,7 @@ function detectPoseInRealTime(video, net) {
           // ループ内の胸の位置をキャッシュする
           ChestArr.pop();      //末尾削除
           ChestArr.unshift(Chest); //先頭追加
-          console.log(ChestArr); //プリントデバッグ
+          // console.log(ChestArr); //プリントデバッグ
           if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }
