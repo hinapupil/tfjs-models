@@ -85,7 +85,7 @@ const guiState = {
     quantBytes: defaultQuantBytes
   },
   singlePoseDetection: {
-    minPoseConfidence: 0.1, //ここを変更すれば誤認識が減るかも
+    minPoseConfidence: 0.1,
     minPartConfidence: 0.5,
   },
   multiPoseDetection: {
