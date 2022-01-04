@@ -22,7 +22,7 @@ import Stats from 'stats.js';
 
 import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
 
-const videoWidth = 1000;
+const videoWidth = 800;
 const videoHeight = 500;
 const stats = new Stats();
 
@@ -290,9 +290,8 @@ let count = 0;
 
 let leftArm;
 let rightArm;
-let leftArmArr = ["No", "No"];
-let rightArmArr = ["No", "No"];
-
+let leftArmArr = ["NG", "NG"];
+let rightArmArr = ["NG", "NG"];
 let leftChest;
 let rightChest;
 let Chest;
@@ -486,7 +485,7 @@ function detectPoseInRealTime(video, net) {
             leftArm = leftArmArr[0];
           }
           else {
-            leftArm = "No";
+            leftArm = "NG";
           }
           document.getElementById("JudgementLeftArm").innerHTML = "左腕: " + leftArm;
           leftArmArr.pop();
@@ -502,7 +501,7 @@ function detectPoseInRealTime(video, net) {
             rightArm = rightArmArr[0];
           }
           else {
-            rightArm = "No";
+            rightArm = "NG";
           }
           document.getElementById("JudgementRightArm").innerHTML = "左腕" + rightArm;
           rightArmArr.pop();
