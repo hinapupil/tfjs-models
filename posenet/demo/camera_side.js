@@ -22,7 +22,7 @@ import Stats from 'stats.js';
 
 import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
 
-const videoWidth = 1000;
+const videoWidth = 800;
 const videoHeight = 500;
 const stats = new Stats();
 
@@ -289,8 +289,8 @@ let count = 0;
 
 let knees;
 let waist;
-let kneesArr = ["No", "No"];
-let waistArr = ["No", "No"];
+let kneesArr = ["NG", "NG"];
+let waistArr = ["NG", "NG"];
 
 let leftChest;
 let rightChest;
@@ -333,6 +333,25 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
 
   async function poseDetectionFrame() {
+
+    const knesslow = Number( document.querySelector('#knessLow').value ).toFixed(1);
+    document.getElementById("rangeKnessLow").innerHTML = "膝-下閾値: " + knesslow;
+
+    const knesshigh = Number( document.querySelector('#knessHigh').value ).toFixed(1);
+    document.getElementById("rangeKnessHigh").innerHTML = "膝-上閾値: " + knesshigh;
+
+    const waistlow = Number( document.querySelector('#waistLow').value ).toFixed(1);
+    document.getElementById("rangeWaistLow").innerHTML = "腰-下閾値: " + waistlow;
+
+    const waisthigh = Number( document.querySelector('#waistHigh').value ).toFixed(1);
+    document.getElementById("rangeWaistHigh").innerHTML = "腰-上閾値: " + waisthigh;
+
+    const chestlow = Number( document.querySelector('#chestLow').value ).toFixed(1);
+    document.getElementById("rangeChestLow").innerHTML = "胸-下閾値: " + chestlow;
+
+    const chesthigh = Number( document.querySelector('#chestHigh').value ).toFixed(1);
+    document.getElementById("rangeChestHigh").innerHTML = "胸-上閾値: " + chesthigh;
+
     if (guiState.changeToArchitecture) {
       // Important to purge variables and free up GPU memory
       guiState.net.dispose();
@@ -469,7 +488,7 @@ function detectPoseInRealTime(video, net) {
           }
 
           // 足首から膝までの傾き
-          let calf =　SlopeOfLinear(leftKnee, leftAnkle);
+          let calf = SlopeOfLinear(leftKnee, leftAnkle);
 
           // 膝から尻までの傾き
           let thighs = SlopeOfLinear(leftHip, leftKnee);
@@ -478,28 +497,28 @@ function detectPoseInRealTime(video, net) {
           let body = SlopeOfLinear(leftShoulder, leftHip);
 
           // 膝が曲がっているかの判定
-          if (Math.abs(calf - thighs) < 0.5) {
+          if (Math.abs(calf - thighs) < knesslow) {
             knees = "OK";
           }
-          else if (Math.abs(calf - thighs) < 1.0) {
+          else if (Math.abs(calf - thighs) < knesshigh) {
             knees = kneesArr[0];
           }
           else {
-            knees = "No";
+            knees = "NG";
           }
           document.getElementById("JudgementKness").innerHTML = "膝: " + knees;
           kneesArr.pop();
           kneesArr.unshift(knees);
 
           // 腰が曲がっているかの判定
-          if (Math.abs(thighs - body) < 0.5) {
+          if (Math.abs(thighs - body) < waistlow) {
             waist = "OK";
           }
-          else if (Math.abs(thighs - body) < 1.0) {
+          else if (Math.abs(thighs - body) < waisthigh) {
             waist = waistArr[0];
           }
           else {
-            waist = "No";
+            waist = "NG";
           }
           document.getElementById("JudgementWaist").innerHTML = "腰: " + waist;
           waistArr.pop();
@@ -509,10 +528,10 @@ function detectPoseInRealTime(video, net) {
           //条件文
           let chestPosition = keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y;
 
-          if (chestPosition < -12.5) {
+          if (chestPosition < chestlow) {
             Chest = "上げろ";
           }
-          else if (chestPosition > 25){
+          else if (chestPosition > chesthigh){
             Chest = "下げろ";
           }
           else {
