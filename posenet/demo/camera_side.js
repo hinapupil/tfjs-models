@@ -541,7 +541,7 @@ function detectPoseInRealTime(video, net) {
           // ループ内の胸の位置をキャッシュする
           ChestArr.pop();      //末尾削除
           ChestArr.unshift(Chest); //先頭追加
-          console.log(ChestArr); // プリントデバッグ
+          // console.log(ChestArr); // プリントデバッグ
           if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
             count++;
           }
