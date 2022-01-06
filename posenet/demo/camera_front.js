@@ -334,6 +334,13 @@ function detectPoseInRealTime(video, net) {
 
   async function poseDetectionFrame() {
 
+    const elmVolume = Number( document.querySelector('#volume').value ).toFixed(1);
+    //初期値設定
+    document.getElementById("up-sound-file").volume = elmVolume;
+    document.getElementById("down-sound-file").volume = elmVolume;
+    //音量表示
+    document.getElementById("rangeVolume").innerHTML = "音量: " + elmVolume;
+
     const armlow = Number( document.querySelector('#armLow').value );
     // console.log(armlow);
     document.getElementById("rangeArmLow").innerHTML = "腕-下閾値: " + armlow;
@@ -503,7 +510,7 @@ function detectPoseInRealTime(video, net) {
           else {
             rightArm = "NG";
           }
-          document.getElementById("JudgementRightArm").innerHTML = "左腕" + rightArm;
+          document.getElementById("JudgementRightArm").innerHTML = "左腕: " + rightArm;
           rightArmArr.pop();
           rightArmArr.unshift(rightArm);
 
@@ -519,13 +526,17 @@ function detectPoseInRealTime(video, net) {
           else {
             Chest = ChestArr[0];
           }
-          document.getElementById("JudgementChest").innerHTML = "胸: " + Chest;
+          document.getElementById("JudgementChest").innerHTML = "胸: " + Chest; 
           // ループ内の胸の位置をキャッシュする
           ChestArr.pop();      //末尾削除
           ChestArr.unshift(Chest); //先頭追加
           // console.log(ChestArr); //プリントデバッグ
-          if (((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ"))) {
+          if ((ChestArr[0] == "下げろ") && (ChestArr[1] == "上げろ")) {
+            downSound();
             count++;
+          } 
+          else if ((ChestArr[0] == "上げろ") && (ChestArr[1] == "下げろ")) {
+            upSound();
           }
           document.getElementById("JudgementCount").innerHTML = "回数: " + count;
         }
@@ -535,6 +546,24 @@ function detectPoseInRealTime(video, net) {
     stats.end();
 
     requestAnimationFrame(poseDetectionFrame);
+  }
+
+  function upSound() {
+    // 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
+    if (typeof (document.getElementById('up-sound-file').currentTime) != 'undefined') {
+        document.getElementById('up-sound-file').currentTime = 0;
+    }
+    //音声ファイルを再生する
+    document.getElementById('up-sound-file').play();
+  }
+
+  function downSound() {
+    // 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
+    if (typeof (document.getElementById('down-sound-file').currentTime) != 'undefined') {
+        document.getElementById('down-sound-file').currentTime = 0;
+    }
+    //音声ファイルを再生する
+    document.getElementById('down-sound-file').play();
   }
 
   poseDetectionFrame();
