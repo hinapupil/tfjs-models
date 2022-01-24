@@ -5,6 +5,10 @@
     <title>PoseNet - Camera Feed Demo</title>
     <meta charset="UTF-8"/>
     <style>
+        div#font {
+            font-size: 30px;
+        }
+
         .footer {
             position: fixed;
             left: 0;
@@ -102,10 +106,12 @@
         </div>
     </div> -->
     <script src="camera_front.js"></script>
-    <p id="JudgementLeftArm"></p>
-    <p id="JudgementRightArm"></p>
-    <p id="JudgementChest"></p>
-    <p id="JudgementCount"></p>
+    <div id="font">
+        <p id="JudgementLeftArm"></p>
+        <p id="JudgementRightArm"></p>
+        <p id="JudgementChest"></p>
+        <p id="JudgementCount"></p>
+    </div>
 
     <audio id="up-sound-file" preload="auto">
         <source src="Ariel_up.wav" type="audio/wav">
@@ -118,17 +124,18 @@
 		<p id="rangeVolume"></p>
 		<input type="range" min="0" max="1" step="0.1" value="0.5" id="volume">
 
-    <p>----閾値----</p>
-      <p id="rangeArmLow"></p>
+
+        <p>----閾値----</p>
+        <p id="rangeArmLow"></p>
         <input type="range" min="10" max="70" step="1" value="30" id="armLow">
-      <p id="rangeArmHigh"></p>
+        <p id="rangeArmHigh"></p>
         <input type="range" min="10" max="70" step="1" value="60"  id="armHigh">
-      <p id="rangeChestLow"></p>
+        <p id="rangeChestLow"></p>
         <input type="range" min="-40" max="0" step="1" value="-15"  id="chestLow">
-      <p id="rangeChestHigh"></p>
+        <p id="rangeChestHigh"></p>
         <input type="range" min="0" max="50" step="1" value="30"  id="chestHigh">
-			<iframe src="Ariel_up.wav" allow="autoplay" style="display:none">
-    	<p>Voiced by https://CoeFont.cloud/</p>
+        <iframe src="Ariel_up.wav" allow="autoplay" style="display:none">
+            <p>Voiced by https://CoeFont.cloud/</p>
 </body>
 
 </html>

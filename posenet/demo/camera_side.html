@@ -5,6 +5,10 @@
     <title>PoseNet - Camera Feed Demo</title>
     <meta charset="UTF-8">
     <style>
+        div#font {
+            font-size: 30px;
+        }
+
         .footer {
             position: fixed;
             left: 0;
@@ -102,10 +106,12 @@
         </div>
     </div> -->
     <script src="camera_side.js"></script>
-    <p id="JudgementKness"></p>
-    <p id="JudgementWaist"></p>
-    <p id="JudgementChest"></p>
-    <p id="JudgementCount"></p>
+    <div id="font">
+        <p id="JudgementKness"></p>
+        <p id="JudgementWaist"></p>
+        <p id="JudgementChest"></p>
+        <p id="JudgementCount"></p>
+    </div>
 
     <audio id="up-sound-file" preload="auto">
       <source src="Ariel_up.wav" type="audio/wav" controls>
