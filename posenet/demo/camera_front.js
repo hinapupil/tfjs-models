@@ -333,9 +333,9 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
 
   async function poseDetectionFrame() {
-
+    //音量ボリュームの関数の宣言
     const elmVolume = Number( document.querySelector('#volume').value ).toFixed(1);
-    //初期値設定
+    //音量ボリュームの初期値設定
     document.getElementById("up-sound-file").volume = elmVolume;
     document.getElementById("down-sound-file").volume = elmVolume;
     //音量表示

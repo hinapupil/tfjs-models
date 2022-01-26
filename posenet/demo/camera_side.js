@@ -333,9 +333,9 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
 
   async function poseDetectionFrame() {
-
+    //音量ボリュームの関数の宣言
     const elmVolume = Number( document.querySelector('#volume').value ).toFixed(1);
-    //初期値設定
+    //音量ボリュームの初期値設定
     document.getElementById("up-sound-file").volume = elmVolume;
     document.getElementById("down-sound-file").volume = elmVolume;
     //音量表示
@@ -565,24 +565,6 @@ function detectPoseInRealTime(video, net) {
     stats.end();
 
     requestAnimationFrame(poseDetectionFrame);
-  }
-  
-  function upSound() {
-    // 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
-    if (typeof (document.getElementById('up-sound-file').currentTime) != 'undefined') {
-        document.getElementById('up-sound-file').currentTime = 0;
-    }
-    //音声ファイルを再生する
-    document.getElementById('up-sound-file').play();
-  }
-
-  function downSound() {
-    // 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
-    if (typeof (document.getElementById('down-sound-file').currentTime) != 'undefined') {
-        document.getElementById('down-sound-file').currentTime = 0;
-    }
-    //音声ファイルを再生する
-    document.getElementById('down-sound-file').play();
   }
 
   function upSound() {
