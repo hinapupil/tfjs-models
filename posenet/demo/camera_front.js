@@ -346,7 +346,6 @@ function detectPoseInRealTime(video, net) {
     document.getElementById("rangeArmLow").innerHTML = "腕-下閾値: " + armlow;
 
     const armhigh = Number( document.querySelector('#armHigh').value );
-    console.log(armhigh);
     document.getElementById("rangeArmHigh").innerHTML = "腕-上閾値: " + armhigh;
 
     const chestlow = Number( document.querySelector('#chestLow').value );
@@ -482,7 +481,6 @@ function detectPoseInRealTime(video, net) {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
           drawKeypoints(keypoints, minPartConfidence, ctx);
-
           // 腕が床と垂直になっているか判定する．
           // 左腕の判定
           if (Math.abs(keypoints[leftWrist].position.x - keypoints[leftElbow].position.x) < armlow) {
