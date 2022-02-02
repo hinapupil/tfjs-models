@@ -2,98 +2,111 @@
 <html>
 
 <head>
-    <title>PoseNet - Camera Feed Demo</title>
-    <meta charset="UTF-8">
-    <style>
-        div#font {
-            font-size: 30px;
-        }
+	<title>PoseNet - Camera Feed Demo</title>
+	<meta charset="UTF-8">
+	<style>
+		#start-button {
+			display: block;
+			cursor: pointer;
+			width: 160px;
+			text-align: center;
+			border: 1px solid;
+			color: white;
+			background-color: orange;
+			border-radius: 100vh;
+		}
 
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            color: black;
-        }
+		div#font {
+			font-size: 30px;
+		}
 
-        .footer-text {
-            max-width: 600px;
-            text-align: center;
-            margin: auto;
-        }
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			color: black;
+		}
 
-        @media only screen and (max-width: 600px) {
+		.footer-text {
+			max-width: 600px;
+			text-align: center;
+			margin: auto;
+		}
 
-            .footer-text,
-            .dg {
-                display: none;
-            }
-        }
+		@media only screen and (max-width: 600px) {
 
-        /*
+			.footer-text,
+			.dg {
+				display: none;
+			}
+		}
+
+		/*
          *  The following loading spinner CSS is from SpinKit project
          *  https://github.com/tobiasahlin/SpinKit
          */
-        .sk-spinner-pulse {
-            width: 20px;
-            height: 20px;
-            margin: auto 10px;
-            float: left;
-            background-color: #333;
-            border-radius: 100%;
-            -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
-            animation: sk-pulseScaleOut 1s infinite ease-in-out;
-        }
+		.sk-spinner-pulse {
+			width: 20px;
+			height: 20px;
+			margin: auto 10px;
+			float: left;
+			background-color: #333;
+			border-radius: 100%;
+			-webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
+			animation: sk-pulseScaleOut 1s infinite ease-in-out;
+		}
 
-        @-webkit-keyframes sk-pulseScaleOut {
-            0% {
-                -webkit-transform: scale(0);
-                transform: scale(0);
-            }
+		@-webkit-keyframes sk-pulseScaleOut {
+			0% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+			}
 
-            100% {
-                -webkit-transform: scale(1.0);
-                transform: scale(1.0);
-                opacity: 0;
-            }
-        }
+			100% {
+				-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+				opacity: 0;
+			}
+		}
 
-        @keyframes sk-pulseScaleOut {
-            0% {
-                -webkit-transform: scale(0);
-                transform: scale(0);
-            }
+		@keyframes sk-pulseScaleOut {
+			0% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+			}
 
-            100% {
-                -webkit-transform: scale(1.0);
-                transform: scale(1.0);
-                opacity: 0;
-            }
-        }
+			100% {
+				-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+				opacity: 0;
+			}
+		}
 
-        .spinner-text {
-            float: left;
-        }
-    </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+		.spinner-text {
+			float: left;
+		}
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <div id="info" style='display:none'>
-    </div>
-    <div id="loading" style='display:flex'>
-        <div class="spinner-text">
-            Loading PoseNet model...
-        </div>
-        <div class="sk-spinner sk-spinner-pulse"></div>
-    </div>
-    <div id='main' style='display:none'>
-        <video id="video" playsinline style="display: none;">
-        </video>
-        <canvas id="output" >
-    </div>
-    <!-- <div class="footer">
+	<div id="info" style='display:none'>
+	</div>
+	<div id="loading" style='display:flex'>
+		<div class="spinner-text">
+			<div id="start-button">
+				<p>判定スタート</p>
+			</div>
+		</div>
+		<!-- <div class="sk-spinner sk-spinner-pulse"></div> -->
+	</div>
+	<div id='main' style='display:none'>
+		<video id="video" playsinline style="display: none;">
+		</video>
+		<canvas id="output">
+	</div>
+	<!-- <div class="footer">
         <div class="footer-text">
             <p>
                 PoseNet runs with either a <strong>single-pose</strong> or <strong>multi-pose</strong> detection
@@ -105,39 +118,58 @@
                 <i>higher</i> image scale factor results in higher accuracy but lower speed. </p>
         </div>
     </div> -->
-    <script src="camera_side.js"></script>
-    <div id="font">
-        <p id="JudgementKness"></p>
-        <p id="JudgementWaist"></p>
-        <p id="JudgementChest"></p>
-        <p id="JudgementCount"></p>
-    </div>
 
-    <audio id="up-sound-file" preload="auto">
-      <source src="Ariel_up.wav" type="audio/wav" controls>
-    </audio>
+	<script src="camera_side.js"></script>
+	<div id="font">
+		<p id="JudgementKnees"></p>
+		<p id="JudgementKneesCount"></p>
+		<p id="JudgementWaist"></p>
+		<p id="JudgementWaistCount"></p>
+		<p id="JudgementChest"></p>
+		<p id="JudgementChestCount"></p>
+	</div>
 
-    <audio id="down-sound-file" preload="auto">
-    	<source src="Ariel_down.wav" type="audio/wav" controls>
-    </audio>
+	<audio id="up-sound-file" preload="auto">
+		<source src="wav/up.wav" type="audio/wav">
+	</audio>
 
-    <p id="rangeVolume"></p>
-    	<input type="range" min="0" max="1" step="0.1" value="0.5" id="volume">
+	<audio id="down-sound-file" preload="auto">
+		<source src="wav/down.wav" type="audio/wav">
+	</audio>
 
-    <p>----閾値----</p>
-    <p id="rangeKnessLow"></p>
-      <input type="range" min="0" max="5" step="0.1" value="0.5" id="knessLow">
-    <p id="rangeKnessHigh"></p>
-       <input type="range" min="0" max="5" step="0.1" value="1.0" id="knessHigh">
-    <p id="rangeWaistLow"></p>
-      <input type="range" min="0" max="5" step="0.1" value="0.5"  id="waistLow">
-    <p id="rangeWaistHigh"></p>
-      <input type="range" min="0" max="5" step="0.1" value="1.0"  id="waistHigh">
-    <p id="rangeChestLow"></p>
-      <input type="range" min="-40" max="0" step="0.5" value="-12.5"  id="chestLow">
-    <p id="rangeChestHigh"></p>
-      <input type="range" min="0" max="50" step="0.5" value="25"  id="chestHigh">
-    <p>Voiced by https://CoeFont.cloud/</p>
+	<audio id="waist-ng-sound-file" preload="auto">
+		<source src="wav/waist_NG.wav" type="audio/wav">
+	</audio>
+
+	<audio id="waist-ok-sound-file" preload="auto">
+		<source src="wav/waist_OK.wav" type="audio/wav">
+	</audio>
+
+	<audio id="knees-ng-sound-file" preload="auto">
+		<source src="wav/knees_NG.wav" type="audio/wav">
+	</audio>
+
+	<audio id="knees-ok-sound-file" preload="auto">
+		<source src="wav/knees_OK.wav" type="audio/wav">
+	</audio>
+
+	<p id="rangeVolume"></p>
+	<input type="range" min="0" max="1" step="0.1" value="0.5" id="volume">
+
+	<p>----閾値----</p>
+	<p id="rangeKneesLow"></p>
+	<input type="range" min="0" max="5" step="0.1" value="0.5" id="kneesLow">
+	<p id="rangeKneesHigh"></p>
+	<input type="range" min="0" max="5" step="0.1" value="1.0" id="kneesHigh">
+	<p id="rangeWaistLow"></p>
+	<input type="range" min="0" max="5" step="0.1" value="0.5" id="waistLow">
+	<p id="rangeWaistHigh"></p>
+	<input type="range" min="0" max="5" step="0.1" value="1.0" id="waistHigh">
+	<p id="rangeChestLow"></p>
+	<input type="range" min="-40" max="0" step="0.5" value="-12.5" id="chestLow">
+	<p id="rangeChestHigh"></p>
+	<input type="range" min="0" max="50" step="0.5" value="25" id="chestHigh">
+	<p>Voiced by https://CoeFont.cloud/</p>
 </body>
 
 </html>
