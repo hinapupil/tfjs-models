@@ -342,22 +342,22 @@ function detectPoseInRealTime(video, net) {
     document.getElementById("rangeVolume").innerHTML = "音量: " + elmVolume;
 
     const knesslow = Number( document.querySelector('#knessLow').value ).toFixed(1);
-    document.getElementById("rangeKnessLow").innerHTML = "膝-下閾値: " + knesslow;
+    document.getElementById("rangeKnessLow").innerHTML = "膝-NG判定の時にOK判定へ切り替わる閾値: " + knesslow;
 
     const knesshigh = Number( document.querySelector('#knessHigh').value ).toFixed(1);
-    document.getElementById("rangeKnessHigh").innerHTML = "膝-上閾値: " + knesshigh;
+    document.getElementById("rangeKnessHigh").innerHTML = "膝-OK判定の時にNG判定へ切り替わる閾値: " + knesshigh;
 
     const waistlow = Number( document.querySelector('#waistLow').value ).toFixed(1);
-    document.getElementById("rangeWaistLow").innerHTML = "腰-下閾値: " + waistlow;
+    document.getElementById("rangeWaistLow").innerHTML = "腰-NG判定の時にOK判定へ切り替わる閾値: " + waistlow;
 
     const waisthigh = Number( document.querySelector('#waistHigh').value ).toFixed(1);
-    document.getElementById("rangeWaistHigh").innerHTML = "腰-上閾値: " + waisthigh;
+    document.getElementById("rangeWaistHigh").innerHTML = "腰-OK判定の時にNG判定へ切り替わる閾値: " + waisthigh;
 
     const chestlow = Number( document.querySelector('#chestLow').value ).toFixed(1);
-    document.getElementById("rangeChestLow").innerHTML = "胸-下閾値: " + chestlow;
+    document.getElementById("rangeChestLow").innerHTML = "胸を下げる動作から上げる動作に切り替える閾値: " + chestlow;
 
     const chesthigh = Number( document.querySelector('#chestHigh').value ).toFixed(1);
-    document.getElementById("rangeChestHigh").innerHTML = "胸-上閾値: " + chesthigh;
+    document.getElementById("rangeChestHigh").innerHTML = "胸を上げる動作から下げる動作に切り替える閾値: " + chesthigh;
 
     if (guiState.changeToArchitecture) {
       // Important to purge variables and free up GPU memory

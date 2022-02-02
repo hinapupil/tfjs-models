@@ -343,16 +343,16 @@ function detectPoseInRealTime(video, net) {
 
     const armlow = Number( document.querySelector('#armLow').value );
     // console.log(armlow);
-    document.getElementById("rangeArmLow").innerHTML = "腕-下閾値: " + armlow;
+    document.getElementById("rangeArmLow").innerHTML = "腕-NG判定の時にOK判定へ切り替わる閾値: " + armlow;
 
     const armhigh = Number( document.querySelector('#armHigh').value );
-    document.getElementById("rangeArmHigh").innerHTML = "腕-上閾値: " + armhigh;
+    document.getElementById("rangeArmHigh").innerHTML = "腕-OK判定の時にNG判定へ切り替わる閾値: " + armhigh;
 
     const chestlow = Number( document.querySelector('#chestLow').value );
-    document.getElementById("rangeChestLow").innerHTML = "胸-下閾値: " + chestlow;
+    document.getElementById("rangeChestLow").innerHTML = "胸を下げる動作から上げる動作に切り替える閾値: " + chestlow;
 
     const chesthigh = Number( document.querySelector('#chestHigh').value );
-    document.getElementById("rangeChestHigh").innerHTML = "胸-上閾値: " + chesthigh;
+    document.getElementById("rangeChestHigh").innerHTML = "胸を上げる動作から下げる動作に切り替える閾値: " + chesthigh;
 
     if (guiState.changeToArchitecture) {
       // Important to purge variables and free up GPU memory
