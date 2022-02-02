@@ -293,8 +293,6 @@ let waistCount = 0;
 
 let knees;
 let waist;
-let kneesArr = ["NG", "NG"];
-let waistArr = ["NG", "NG"];
 
 let Chest;
 let ChestArr = ["下げろ", "下げろ"];
@@ -341,10 +339,6 @@ function detectPoseInRealTime(video, net) {
 		//音量ボリュームの初期値設定
 		document.getElementById("up-sound-file").volume = elmVolume;
 		document.getElementById("down-sound-file").volume = elmVolume;
-		document.getElementById("knees-ng-sound-file").volume = elmVolume;
-		document.getElementById("knees-ok-sound-file").volume = elmVolume;
-		document.getElementById("waist-ng-sound-file").volume = elmVolume;
-		document.getElementById("waist-ok-sound-file").volume = elmVolume;
 
 		//音量表示
 		document.getElementById("rangeVolume").innerHTML = "音量: " + elmVolume;
@@ -523,18 +517,9 @@ function detectPoseInRealTime(video, net) {
 					else {
 						knees = kneesArr[0];
 					}
-					document.getElementById("JudgementKnees").innerHTML = "膝: " + knees;
 					kneesArr.pop();
 					kneesArr.unshift(knees);
-					// 膝の音声
-					if ((kneesArr[0] == "OK") && (kneesArr[1] == "NG")) {
-						kneesOkSound();
-						kneesCount++; //修正した回数をカウントする
-					}
-					else if ((kneesArr[0] == "NG") && (kneesArr[1] == "OK")) {
-						kneesNgSound();
-					}
-					document.getElementById("JudgementKneesCount").innerHTML = "膝の修正回数: " + kneesCount;
+					document.getElementById("JudgementKnees").innerHTML = "膝: " + knees;
 
 					// 腰の角度(ふとももと胴体の傾きの差)
 					let waistAngle = Math.abs(thighs - body);
@@ -548,18 +533,9 @@ function detectPoseInRealTime(video, net) {
 					else {
 						waist = waistArr[0];
 					}
-					document.getElementById("JudgementWaist").innerHTML = "腰: " + waist;
 					waistArr.pop();
 					waistArr.unshift(waist);
-					// 腰の音声
-					if ((waistArr[0] == "OK") && (waistArr[1] == "NG")) {
-						waistOkSound();
-						waistCount++; //修正した回数をカウントする
-					}
-					else if ((waistArr[0] == "NG") && (waistArr[1] == "OK")) {
-						waistNgSound();
-					}
-					document.getElementById("JudgementWaistCount").innerHTML = "腰の修正回数: " + waistCount;
+					document.getElementById("JudgementWaist").innerHTML = "腰: " + waist;
 
 					// 胸の位置(肩と肘の差)
 					let chestPosition = keypoints[leftElbow].position.y - keypoints[leftShoulder].position.y;
@@ -622,33 +598,6 @@ function detectPoseInRealTime(video, net) {
 		}
 		//音声ファイルを再生する
 		document.getElementById('knees-ng-sound-file').play();
-	}
-
-	function kneesOkSound() {
-		// 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
-		if (typeof (document.getElementById('knees-ok-sound-file').currentTime) != 'undefined') {
-			document.getElementById('knees-ok-sound-file').currentTime = 0;
-		}
-		//音声ファイルを再生する
-		document.getElementById('knees-ok-sound-file').play();
-	}
-
-	function waistNgSound() {
-		// 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
-		if (typeof (document.getElementById('waist-ng-sound-file').currentTime) != 'undefined') {
-			document.getElementById('waist-ng-sound-file').currentTime = 0;
-		}
-		//音声ファイルを再生する
-		document.getElementById('waist-ng-sound-file').play();
-	}
-
-	function waistOkSound() {
-		// 初回以外は音声ファイルを巻き戻す(再生位置[秒]を0に設定する)
-		if (typeof (document.getElementById('waist-ok-sound-file').currentTime) != 'undefined') {
-			document.getElementById('waist-ok-sound-file').currentTime = 0;
-		}
-		//音声ファイルを再生する
-		document.getElementById('waist-ok-sound-file').play();
 	}
 
 	poseDetectionFrame();
