@@ -17,11 +17,10 @@
 import '@tensorflow/tfjs-backend-webgl';
 
 import * as posenet from '@tensorflow-models/posenet';
-import dat, { GUIController } from 'dat.gui';
+import dat from 'dat.gui';
 import Stats from 'stats.js';
 
 import { drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss } from './demo_util';
-import { sin } from '@tensorflow/tfjs-core';
 
 const videoWidth = 800;
 const videoHeight = 500;
