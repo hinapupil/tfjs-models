@@ -288,11 +288,11 @@ function setupFPS() {
 }
 
 let chestCount = 0;
-let kneesCount = 0;
-let waistCount = 0;
 
 let knees;
 let waist;
+let kneesArr = ["NG", "NG"];
+let waistArr = ["NG", "NG"];
 
 let Chest;
 let ChestArr = ["下げろ", "下げろ"];
