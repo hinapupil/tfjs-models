@@ -536,11 +536,11 @@ function detectPoseInRealTime(video, net) {
 
 					// 腕の音声とカウントアップ
 					if ((armArr[0] == "OK") && (armArr[1] == "NG")) {
-						armOkSound();
+						// armOkSound();
 						armCount++; //修正した回数をカウントする
 					}
 					else if ((armArr[0] == "NG") && (armArr[1] == "OK")) {
-						armNgSound();
+						// armNgSound();
 					}
 					document.getElementById("JudgementArmCount").innerHTML = "腕の修正回数: " + armCount;
 
